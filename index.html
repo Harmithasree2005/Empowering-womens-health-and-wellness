@@ -1,0 +1,1552 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shakthi - Women's Wellness Platform</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B4789;
+            --secondary: #D4A574;
+            --accent: #E8B4BC;
+            --text-dark: #2C2C2C;
+            --text-light: #666;
+            --bg-light: #FFF9F5;
+            --bg-white: #FFFFFF;
+            --success: #6B9080;
+            --warning: #E07A5F;
+            --border: #E5D9CF;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+        }
+
+        .app-container {
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #6B3668 100%);
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(139, 71, 137, 0.2);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.25);
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #6B3668 50%, var(--secondary) 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0 Q300,40 600,20 T1200,0 L1200,120 L0,120 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(139, 71, 137, 0.15);
+            border-color: var(--accent);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* Health Tracker */
+        .tracker-section {
+            background: var(--bg-white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .tracker-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tracker-card {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tracker-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(139, 71, 137, 0.3);
+        }
+
+        .tracker-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Community Section */
+        .community-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .community-card {
+            background: linear-gradient(135deg, #FFF 0%, var(--bg-light) 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        /* Resources */
+        .resource-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .resource-item {
+            background: var(--bg-white);
+            border-radius: 15px;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .resource-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* Emergency Support */
+        .emergency-section {
+            background: linear-gradient(135deg, var(--warning) 0%, #D96449 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .emergency-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hotline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .hotline-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .hotline-card h4 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+
+        .hotline-number {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Karla', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #6B3668 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 71, 137, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #C09564;
+        }
+
+        /* Financial Tools */
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .financial-card {
+            background: linear-gradient(135deg, var(--success) 0%, #5A8070 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .financial-card h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .financial-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Stories Section */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: var(--bg-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .story-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .story-content {
+            padding: 2rem;
+        }
+
+        .story-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .story-content .role {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer h4 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .footer ul {
+            list-style: none;
+        }
+
+        .footer li {
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .cards-grid,
+            .tracker-options,
+            .hotline-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--primary);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'Karla', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Auth Tabs */
+        .auth-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .auth-tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .auth-tab:hover {
+            color: var(--primary);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideInRight 0.5s ease;
+            min-width: 300px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.error {
+            border-left: 4px solid var(--warning);
+        }
+
+        .notification-icon {
+            font-size: 2rem;
+        }
+
+        .notification-content h4 {
+            margin-bottom: 0.3rem;
+            color: var(--text-dark);
+        }
+
+        .notification-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .lang-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .link-text {
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .link-text:hover {
+            color: #6B3668;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function App() {
+            const [activeTab, setActiveTab] = useState('home');
+            const [showModal, setShowModal] = useState(false);
+            const [modalContent, setModalContent] = useState(null);
+            const [language, setLanguage] = useState('en');
+            const [user, setUser] = useState(null);
+            const [showAuthModal, setShowAuthModal] = useState(false);
+            const [notification, setNotification] = useState(null);
+
+            // Check if user is logged in on component mount
+            useEffect(() => {
+                const storedUser = localStorage.getItem('shaktiUser');
+                if (storedUser) {
+                    setUser(JSON.parse(storedUser));
+                }
+            }, []);
+
+            const languages = {
+                en: 'English',
+                hi: 'हिंदी',
+                ta: 'தமிழ்',
+                te: 'తెలుగు',
+                bn: 'বাংলা'
+            };
+
+            const openModal = (content) => {
+                setModalContent(content);
+                setShowModal(true);
+            };
+
+            const closeModal = () => {
+                setShowModal(false);
+                setModalContent(null);
+            };
+
+            const showNotification = (type, title, message) => {
+                setNotification({ type, title, message });
+                setTimeout(() => {
+                    setNotification(null);
+                }, 4000);
+            };
+
+            const handleGetStarted = () => {
+                if (user) {
+                    showNotification('success', 'Welcome Back!', `Hello ${user.name}, you're already logged in!`);
+                } else {
+                    setShowAuthModal(true);
+                }
+            };
+
+            const handleLogin = (userData) => {
+                setUser(userData);
+                localStorage.setItem('shaktiUser', JSON.stringify(userData));
+                setShowAuthModal(false);
+                showNotification('success', 'Login Successful!', `Welcome back, ${userData.name}!`);
+            };
+
+            const handleSignup = (userData) => {
+                setUser(userData);
+                localStorage.setItem('shaktiUser', JSON.stringify(userData));
+                setShowAuthModal(false);
+                showNotification('success', 'Account Created!', `Welcome to Shakthi, ${userData.name}!`);
+            };
+
+            const handleLogout = () => {
+                setUser(null);
+                localStorage.removeItem('shaktiUser');
+                setActiveTab('home');
+                showNotification('success', 'Logged Out', 'You have been successfully logged out.');
+            };
+
+            return (
+                <div className="app-container">
+                    <Header 
+                        activeTab={activeTab} 
+                        setActiveTab={setActiveTab} 
+                        user={user}
+                        onLogout={handleLogout}
+                    />
+                    
+                    {activeTab === 'home' && <Hero onGetStarted={handleGetStarted} user={user} />}
+                    
+                    <main className="main-content">
+                        {activeTab === 'home' && <HomePage openModal={openModal} />}
+                        {activeTab === 'health' && <HealthHub openModal={openModal} />}
+                        {activeTab === 'education' && <EducationResources />}
+                        {activeTab === 'community' && <Community />}
+                        {activeTab === 'support' && <EmergencySupport />}
+                        {activeTab === 'career' && <CareerSupport openModal={openModal} />}
+                        {activeTab === 'financial' && <FinancialTools />}
+                    </main>
+
+                    <LanguageSettings language={language} setLanguage={setLanguage} languages={languages} />
+                    
+                    <Footer />
+
+                    {showModal && (
+                        <Modal closeModal={closeModal} content={modalContent} />
+                    )}
+
+                    {showAuthModal && (
+                        <AuthModal 
+                            closeModal={() => setShowAuthModal(false)} 
+                            onLogin={handleLogin}
+                            onSignup={handleSignup}
+                        />
+                    )}
+
+                    {notification && (
+                        <Notification 
+                            type={notification.type}
+                            title={notification.title}
+                            message={notification.message}
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        function Header({ activeTab, setActiveTab, user, onLogout }) {
+            const tabs = [
+                { id: 'home', label: 'Home' },
+                { id: 'health', label: 'Health Hub' },
+                { id: 'education', label: 'Education' },
+                { id: 'career', label: 'Career' },
+                { id: 'community', label: 'Community' },
+                { id: 'financial', label: 'Finance' },
+                { id: 'support', label: 'Support' }
+            ];
+
+            return (
+                <header className="header">
+                    <div className="header-content">
+                        <div className="logo">Shakthi</div>
+                        <nav className="nav">
+                            {tabs.map(tab => (
+                                <div
+                                    key={tab.id}
+                                    className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
+                                    onClick={() => setActiveTab(tab.id)}
+                                >
+                                    {tab.label}
+                                </div>
+                            ))}
+                            {user && (
+                                <div className="user-info">
+                                    <div className="user-avatar">{user.name.charAt(0).toUpperCase()}</div>
+                                    <button className="logout-btn" onClick={onLogout}>Logout</button>
+                                </div>
+                            )}
+                        </nav>
+                    </div>
+                </header>
+            );
+        }
+
+        function Hero({ onGetStarted, user }) {
+            return (
+                <section className="hero">
+                    <div className="hero-content">
+                        <h1>Empowering Women, Enriching Lives</h1>
+                        <p>Your comprehensive platform for health, wellness, education, career growth, and community support</p>
+                        <button className="btn btn-primary" onClick={onGetStarted}>
+                            {user ? 'Continue Your Journey' : 'Get Started'}
+                        </button>
+                    </div>
+                </section>
+            );
+        }
+
+        function Notification({ type, title, message }) {
+            return (
+                <div className={`notification ${type}`}>
+                    <div className="notification-icon">
+                        {type === 'success' ? '✅' : '⚠️'}
+                    </div>
+                    <div className="notification-content">
+                        <h4>{title}</h4>
+                        <p>{message}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        function AuthModal({ closeModal, onLogin, onSignup }) {
+            const [authMode, setAuthMode] = useState('login');
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            });
+
+            const handleChange = (e) => {
+                setFormData({
+                    ...formData,
+                    [e.target.name]: e.target.value
+                });
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                
+                if (authMode === 'login') {
+                    // Check if user exists in localStorage
+                    const existingUsers = JSON.parse(localStorage.getItem('shaktiUsers') || '[]');
+                    const user = existingUsers.find(u => u.email === formData.email);
+                    
+                    if (user && user.password === formData.password) {
+                        onLogin({ name: user.name, email: user.email });
+                    } else {
+                        alert('Invalid email or password. Please try again or create a new account.');
+                    }
+                } else {
+                    // Signup
+                    if (formData.password !== formData.confirmPassword) {
+                        alert('Passwords do not match!');
+                        return;
+                    }
+                    
+                    // Save user to localStorage
+                    const existingUsers = JSON.parse(localStorage.getItem('shaktiUsers') || '[]');
+                    
+                    // Check if email already exists
+                    if (existingUsers.some(u => u.email === formData.email)) {
+                        alert('Email already exists! Please login instead.');
+                        return;
+                    }
+                    
+                    const newUser = {
+                        name: formData.name,
+                        email: formData.email,
+                        password: formData.password
+                    };
+                    
+                    existingUsers.push(newUser);
+                    localStorage.setItem('shaktiUsers', JSON.stringify(existingUsers));
+                    
+                    onSignup({ name: newUser.name, email: newUser.email });
+                }
+            };
+
+            return (
+                <div className="modal" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>{authMode === 'login' ? 'Welcome Back!' : 'Create Account'}</h2>
+                            <button className="close-btn" onClick={closeModal}>×</button>
+                        </div>
+
+                        <div className="auth-tabs">
+                            <div 
+                                className={`auth-tab ${authMode === 'login' ? 'active' : ''}`}
+                                onClick={() => setAuthMode('login')}
+                            >
+                                Login
+                            </div>
+                            <div 
+                                className={`auth-tab ${authMode === 'signup' ? 'active' : ''}`}
+                                onClick={() => setAuthMode('signup')}
+                            >
+                                Sign Up
+                            </div>
+                        </div>
+
+                        <form onSubmit={handleSubmit}>
+                            {authMode === 'signup' && (
+                                <div className="form-group">
+                                    <label>Full Name</label>
+                                    <input 
+                                        type="text" 
+                                        name="name"
+                                        placeholder="Enter your full name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            )}
+
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input 
+                                    type="email" 
+                                    name="email"
+                                    placeholder="your.email@example.com"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Password</label>
+                                <input 
+                                    type="password" 
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            {authMode === 'signup' && (
+                                <div className="form-group">
+                                    <label>Confirm Password</label>
+                                    <input 
+                                        type="password" 
+                                        name="confirmPassword"
+                                        placeholder="Confirm your password"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            )}
+
+                            <button type="submit" className="btn btn-primary" style={{width: '100%', marginTop: '1rem'}}>
+                                {authMode === 'login' ? 'Login' : 'Create Account'}
+                            </button>
+                        </form>
+
+                        <p style={{marginTop: '1.5rem', textAlign: 'center', color: 'var(--text-light)'}}>
+                            {authMode === 'login' ? "Don't have an account? " : "Already have an account? "}
+                            <span 
+                                className="link-text"
+                                onClick={() => setAuthMode(authMode === 'login' ? 'signup' : 'login')}
+                            >
+                                {authMode === 'login' ? 'Sign Up' : 'Login'}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function HomePage({ openModal }) {
+            const features = [
+                { icon: '🏥', title: 'Health & Wellness', description: 'Comprehensive health resources, cycle tracking, and personalized wellness plans' },
+                { icon: '📚', title: 'Educational Resources', description: 'Learn about your rights, career development, and financial literacy' },
+                { icon: '💼', title: 'Career Support', description: 'Connect with mentors, find opportunities, and advance your professional journey' },
+                { icon: '👥', title: 'Community', description: 'Join supportive groups, share experiences, and build meaningful connections' },
+                { icon: '🛡️', title: 'Safety & Support', description: '24/7 helplines and resources for women facing challenges' },
+                { icon: '💰', title: 'Financial Empowerment', description: 'Tools and guidance for achieving financial independence' }
+            ];
+
+            return (
+                <div>
+                    <section className="section">
+                        <h2 className="section-title">Everything You Need in One Place</h2>
+                        <div className="cards-grid">
+                            {features.map((feature, index) => (
+                                <div key={index} className="card">
+                                    <div className="card-icon">{feature.icon}</div>
+                                    <h3>{feature.title}</h3>
+                                    <p>{feature.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <section className="section">
+                        <h2 className="section-title">Inspirational Stories</h2>
+                        <StoriesSection />
+                    </section>
+                </div>
+            );
+        }
+
+        function HealthHub({ openModal }) {
+            const healthCategories = [
+                { title: 'Menstrual Health', icon: '📅', description: 'Track your cycle, symptoms, and get personalized insights' },
+                { title: 'Mental Wellness', icon: '🧘‍♀️', description: 'Meditation, therapy resources, and mental health support' },
+                { title: 'Reproductive Health', icon: '🤰', description: 'Pregnancy planning, prenatal care, and reproductive health info' },
+                { title: 'Fitness & Nutrition', icon: '🥗', description: 'Workout plans, nutrition guides, and healthy recipes' },
+                { title: 'General Wellness', icon: '💚', description: 'Preventive care, health screenings, and wellness tips' },
+                { title: 'Specialist Consultations', icon: '👩‍⚕️', description: 'Connect with gynecologists, therapists, and health experts' }
+            ];
+
+            return (
+                <div>
+                    <section className="section tracker-section">
+                        <h2 className="section-title">Women's Health Hub</h2>
+                        <p style={{textAlign: 'center', maxWidth: '800px', margin: '0 auto 2rem', color: 'var(--text-light)'}}>
+                            Comprehensive health tracking and resources designed specifically for women's unique health needs
+                        </p>
+                        
+                        <div className="tracker-options">
+                            {healthCategories.map((category, index) => (
+                                <div
+                                    key={index}
+                                    className="tracker-card"
+                                    onClick={() => openModal({
+                                        type: 'health',
+                                        title: category.title,
+                                        content: category.description
+                                    })}
+                                >
+                                    <div style={{fontSize: '3rem', marginBottom: '1rem'}}>{category.icon}</div>
+                                    <h4>{category.title}</h4>
+                                    <p>{category.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        function EducationResources() {
+            const resources = [
+                { title: 'Women\'s Rights & Legal Aid', category: 'Legal', description: 'Know your rights, access legal support, and understand protective laws' },
+                { title: 'Career Development Courses', category: 'Career', description: 'Free and paid courses in technology, business, leadership, and more' },
+                { title: 'Financial Literacy Program', category: 'Finance', description: 'Learn budgeting, investing, tax planning, and wealth building' },
+                { title: 'Self-Care & Wellness', category: 'Wellness', description: 'Mental health, physical fitness, nutrition, and holistic well-being' },
+                { title: 'Entrepreneurship Resources', category: 'Business', description: 'Start and grow your business with expert guidance and funding info' },
+                { title: 'Digital Skills Training', category: 'Technology', description: 'Master essential tech skills for the modern workplace' }
+            ];
+
+            return (
+                <section className="section">
+                    <h2 className="section-title">Educational Resources</h2>
+                    <div className="resource-list">
+                        {resources.map((resource, index) => (
+                            <div key={index} className="resource-item">
+                                <div className="resource-content">
+                                    <h4>{resource.title}</h4>
+                                    <p style={{color: 'var(--text-light)'}}>{resource.description}</p>
+                                    <span style={{
+                                        display: 'inline-block',
+                                        marginTop: '0.5rem',
+                                        padding: '0.3rem 1rem',
+                                        background: 'var(--accent)',
+                                        color: 'white',
+                                        borderRadius: '15px',
+                                        fontSize: '0.9rem'
+                                    }}>
+                                        {resource.category}
+                                    </span>
+                                </div>
+                                <button className="btn btn-primary">Access Now</button>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        function Community() {
+            const discussions = [
+                { name: 'Priya S.', initial: 'P', topic: 'Balancing Career and Family', excerpt: 'Looking for advice on managing work-life balance after returning from maternity leave...' },
+                { name: 'Anjali M.', initial: 'A', topic: 'Starting a Business', excerpt: 'Just launched my e-commerce store! Happy to share my journey and lessons learned...' },
+                { name: 'Divya R.', initial: 'D', topic: 'Mental Health Journey', excerpt: 'Sharing my experience with therapy and how it transformed my life...' },
+                { name: 'Sneha K.', initial: 'S', topic: 'Fitness Goals', excerpt: 'Completed my first 5K run today! Here\'s how I trained from scratch...' }
+            ];
+
+            return (
+                <div>
+                    <section className="section">
+                        <h2 className="section-title">Community & Support</h2>
+                        <p style={{textAlign: 'center', maxWidth: '800px', margin: '0 auto 3rem', color: 'var(--text-light)'}}>
+                            Connect with inspiring women, share experiences, and build meaningful relationships
+                        </p>
+                        
+                        <div className="community-cards">
+                            {discussions.map((discussion, index) => (
+                                <div key={index} className="community-card">
+                                    <div className="member-info">
+                                        <div className="avatar">{discussion.initial}</div>
+                                        <div>
+                                            <div style={{fontWeight: '600', color: 'var(--primary)'}}>{discussion.name}</div>
+                                            <div style={{fontSize: '0.9rem', color: 'var(--text-light)'}}>2 hours ago</div>
+                                        </div>
+                                    </div>
+                                    <h4 style={{marginBottom: '0.5rem', color: 'var(--primary)'}}>{discussion.topic}</h4>
+                                    <p style={{color: 'var(--text-light)', fontSize: '0.95rem'}}>{discussion.excerpt}</p>
+                                    <div style={{marginTop: '1rem', display: 'flex', gap: '1rem', fontSize: '0.9rem', color: 'var(--text-light)'}}>
+                                        <span>❤️ 24</span>
+                                        <span>💬 12</span>
+                                        <span>🔗 Share</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        function EmergencySupport() {
+            const hotlines = [
+                { service: 'National Women Helpline (India)', number: '181', available: '24/7' },
+                { service: 'Domestic Violence Helpline', number: '1091', available: '24/7' },
+                { service: 'Women in Distress', number: '1091', available: '24/7' },
+                { service: 'Mental Health Helpline', number: '1800-599-0019', available: '24/7' },
+                { service: 'Legal Aid Cell', number: '155260', available: '9 AM - 6 PM' },
+                { service: 'Rape Crisis Helpline', number: '1091', available: '24/7' }
+            ];
+
+            return (
+                <div>
+                    <section className="emergency-section">
+                        <h2>24/7 Emergency Support</h2>
+                        <p style={{fontSize: '1.2rem', marginBottom: '2rem'}}>
+                            You are not alone. Help is available anytime you need it.
+                        </p>
+                        
+                        <div className="hotline-grid">
+                            {hotlines.map((hotline, index) => (
+                                <div key={index} className="hotline-card">
+                                    <h4>{hotline.service}</h4>
+                                    <div className="hotline-number">{hotline.number}</div>
+                                    <p style={{marginTop: '0.5rem', color: 'var(--text-light)', fontSize: '0.9rem'}}>
+                                        Available: {hotline.available}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <section className="section">
+                        <h2 className="section-title">Additional Resources</h2>
+                        <div className="cards-grid">
+                            <div className="card">
+                                <h3>Legal Support</h3>
+                                <p>Free legal consultation for cases of harassment, domestic violence, workplace discrimination, and more.</p>
+                                <button className="btn btn-primary" style={{marginTop: '1rem'}}>Connect with Lawyer</button>
+                            </div>
+                            <div className="card">
+                                <h3>Safe Shelter Network</h3>
+                                <p>Find safe shelter homes and rehabilitation centers across India for women in crisis situations.</p>
+                                <button className="btn btn-primary" style={{marginTop: '1rem'}}>Find Shelter</button>
+                            </div>
+                            <div className="card">
+                                <h3>Counseling Services</h3>
+                                <p>Professional psychological counseling and trauma support from certified therapists.</p>
+                                <button className="btn btn-primary" style={{marginTop: '1rem'}}>Book Session</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        function CareerSupport({ openModal }) {
+            return (
+                <section className="section">
+                    <h2 className="section-title">Career & Professional Development</h2>
+                    
+                    <div className="cards-grid">
+                        <div className="card">
+                            <div className="card-icon">👩‍💼</div>
+                            <h3>Mentorship Program</h3>
+                            <p>Connect with experienced professionals who can guide your career journey and help you achieve your goals.</p>
+                            <button 
+                                className="btn btn-primary" 
+                                style={{marginTop: '1rem'}}
+                                onClick={() => openModal({
+                                    type: 'mentorship',
+                                    title: 'Find a Mentor',
+                                    content: 'Mentorship application form'
+                                })}
+                            >
+                                Find a Mentor
+                            </button>
+                        </div>
+
+                        <div className="card">
+                            <div className="card-icon">💼</div>
+                            <h3>Job Opportunities</h3>
+                            <p>Browse curated job listings from women-friendly companies committed to diversity and inclusion.</p>
+                            <button className="btn btn-primary" style={{marginTop: '1rem'}}>
+                                Explore Jobs
+                            </button>
+                        </div>
+
+                        <div className="card">
+                            <div className="card-icon">📖</div>
+                            <h3>Skill Development</h3>
+                            <p>Access free courses, certifications, and workshops to upskill and advance your career.</p>
+                            <button className="btn btn-primary" style={{marginTop: '1rem'}}>
+                                View Courses
+                            </button>
+                        </div>
+
+                        <div className="card">
+                            <div className="card-icon">🌐</div>
+                            <h3>Networking Events</h3>
+                            <p>Join virtual and in-person networking events to expand your professional circle.</p>
+                            <button className="btn btn-primary" style={{marginTop: '1rem'}}>
+                                Upcoming Events
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function FinancialTools() {
+            const tools = [
+                { icon: '💰', title: 'Budget Planner', description: 'Create and manage your monthly budget with smart recommendations' },
+                { icon: '📊', title: 'Investment Guide', description: 'Learn about stocks, mutual funds, and build your investment portfolio' },
+                { icon: '🏦', title: 'Savings Goals', description: 'Set and track savings goals for your dreams and emergencies' },
+                { icon: '💳', title: 'Loan Calculator', description: 'Calculate EMIs and plan your loans smartly' },
+                { icon: '📈', title: 'Retirement Planning', description: 'Plan for a secure financial future with expert guidance' },
+                { icon: '🎓', title: 'Financial Education', description: 'Free courses on personal finance, taxes, and wealth building' }
+            ];
+
+            return (
+                <section className="section">
+                    <h2 className="section-title">Financial Empowerment</h2>
+                    <p style={{textAlign: 'center', maxWidth: '800px', margin: '0 auto 3rem', color: 'var(--text-light)'}}>
+                        Take control of your financial future with tools and resources designed for women
+                    </p>
+                    
+                    <div className="financial-grid">
+                        {tools.map((tool, index) => (
+                            <div key={index} className="financial-card">
+                                <div className="icon">{tool.icon}</div>
+                                <h3>{tool.title}</h3>
+                                <p>{tool.description}</p>
+                                <button className="btn btn-secondary" style={{marginTop: '1rem'}}>
+                                    Get Started
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        function StoriesSection() {
+            const stories = [
+                { name: 'Dr. Kavita Sharma', role: 'Neurosurgeon', icon: '👩‍⚕️', story: 'From a small village to becoming one of India\'s leading neurosurgeons, Dr. Sharma\'s journey inspires thousands of young women in medicine.' },
+                { name: 'Meera Reddy', role: 'Tech Entrepreneur', icon: '💻', story: 'Founded a successful AI startup after 10 years in corporate. Now mentoring 100+ women entrepreneurs through her incubator program.' },
+                { name: 'Asha Menon', role: 'Social Activist', icon: '✊', story: 'Fought against domestic violence and helped establish 20 women\'s shelters across Karnataka, transforming thousands of lives.' }
+            ];
+
+            return (
+                <div className="stories-grid">
+                    {stories.map((story, index) => (
+                        <div key={index} className="story-card">
+                            <div className="story-image">{story.icon}</div>
+                            <div className="story-content">
+                                <h3>{story.name}</h3>
+                                <div className="role">{story.role}</div>
+                                <p style={{color: 'var(--text-light)'}}>{story.story}</p>
+                                <button className="btn btn-secondary" style={{marginTop: '1rem'}}>
+                                    Read Full Story
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+
+        function LanguageSettings({ language, setLanguage, languages }) {
+            return (
+                <section className="section" style={{background: 'var(--bg-white)', padding: '2rem', borderRadius: '20px'}}>
+                    <h2 className="section-title">Language Preferences</h2>
+                    <div className="language-selector" style={{justifyContent: 'center'}}>
+                        {Object.entries(languages).map(([code, name]) => (
+                            <button
+                                key={code}
+                                className={`lang-btn ${language === code ? 'active' : ''}`}
+                                onClick={() => setLanguage(code)}
+                            >
+                                {name}
+                            </button>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        function Modal({ closeModal, content }) {
+            if (!content) return null;
+
+            return (
+                <div className="modal" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>{content.title}</h2>
+                            <button className="close-btn" onClick={closeModal}>×</button>
+                        </div>
+                        
+                        {content.type === 'mentorship' && (
+                            <form>
+                                <div className="form-group">
+                                    <label>Your Name</label>
+                                    <input type="text" placeholder="Enter your full name" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input type="email" placeholder="your.email@example.com" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Current Role/Industry</label>
+                                    <input type="text" placeholder="e.g., Software Engineer" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Career Goals</label>
+                                    <textarea rows="4" placeholder="What do you hope to achieve with mentorship?"></textarea>
+                                </div>
+                                <div className="form-group">
+                                    <label>Preferred Mentor Industry</label>
+                                    <select>
+                                        <option>Technology</option>
+                                        <option>Healthcare</option>
+                                        <option>Finance</option>
+                                        <option>Education</option>
+                                        <option>Entrepreneurship</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <button type="submit" className="btn btn-primary" style={{width: '100%'}}>
+                                    Submit Application
+                                </button>
+                            </form>
+                        )}
+
+                        {content.type === 'health' && (
+                            <div>
+                                <p style={{marginBottom: '1.5rem', lineHeight: '1.8'}}>{content.content}</p>
+                                <div className="form-group">
+                                    <label>Track Your Data</label>
+                                    <input type="date" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Notes</label>
+                                    <textarea rows="3" placeholder="Add any notes or symptoms..."></textarea>
+                                </div>
+                                <button className="btn btn-primary" style={{width: '100%'}}>
+                                    Save Entry
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        function Footer() {
+            return (
+                <footer className="footer">
+                    <div className="footer-content">
+                        <div>
+                            <h4>About Shakthi</h4>
+                            <p style={{opacity: 0.8}}>
+                                Empowering women through comprehensive health, education, career, and community support.
+                            </p>
+                        </div>
+                        <div>
+                            <h4>Quick Links</h4>
+                            <ul>
+                                <li>About Us</li>
+                                <li>Our Mission</li>
+                                <li>Success Stories</li>
+                                <li>Partners</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Resources</h4>
+                            <ul>
+                                <li>Health Library</li>
+                                <li>Legal Support</li>
+                                <li>Career Guide</li>
+                                <li>Financial Tools</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Connect</h4>
+                            <ul>
+                                <li>Contact Us</li>
+                                <li>Community Forum</li>
+                                <li>Newsletter</li>
+                                <li>Social Media</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style={{textAlign: 'center', marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.1)'}}>
+                        <p>© 2026 Shakthi. Empowering Women Everywhere. 🌸</p>
+                    </div>
+                </footer>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
